@@ -1,5 +1,4 @@
 // users/entities/user.entity.ts
-import { Enrollment } from 'src/enrollments/entities/enrollment.entity';
 import { Role } from 'src/roles/entities/role.entity';
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Index, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
@@ -43,9 +42,6 @@ export class User {
     @ManyToOne(() => Role, role => role.users)
     @JoinColumn({ name: 'role_id' })
     role: Role;
-
-    @OneToMany(() => Enrollment, (enrollment) => enrollment.user)
-    enrollments: Enrollment[];
 
     @CreateDateColumn()
     createdAt: Date;

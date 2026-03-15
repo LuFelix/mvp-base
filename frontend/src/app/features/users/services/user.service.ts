@@ -11,11 +11,6 @@ import {
   FullUserResponse
 } from '../../shared/models/users.models';
 import { environment } from '../../../environments/environment';
-//FACADE SERVICES
-import { Exam } from '../../shared/models/exam.model';
-import { Certificate } from '../../shared/models/certificate.model';
-import { ExamService } from '../../certifications/services/exam.service';
-import { CertificateService } from '../../certifications/services/certificate.service';
 
 
 
@@ -32,8 +27,6 @@ export class UserService {
   private readonly ITEM_PATH = `${this.API_URL}/users`; 
   
   private http = inject(HttpClient);
-  private examService = inject(ExamService);
-  private certificateService = inject(CertificateService);
   
   /**
    * Busca os detalhes completos de um usuário pelo ID.
@@ -122,47 +115,4 @@ export class UserService {
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.ITEM_PATH}/${id}`);
   }
-  
-  /**
-   * MÉTODO "FACHADA" (Facade)
-   * Orquestra múltiplas chamadas para montar os dados da
-   * página de "Conquistas".
-   * CORRIGIDO PARA SER "ANTI-FRÁGIL"
-   * O fork join quebra se qualquer um quebrar, então retornamos 
-   * vazio para a aplicação prosseguir
-   * 
-   */
-  getUserAchievementsData(): Observable<{ certificates: Certificate[], exams: Exam[] }> {
-    
-    console.log('[UserService] Fachada: Buscando dados de Conquistas...');
-
-    // 1. Prepara a chamada de Certificados (com seu próprio 'catchError')
-    const certificates$ = this.certificateService.getUserCertificates().pipe(
-      catchError(err => {
-        console.error("Falha ao buscar certificados (na Fachada):", err);
-        return of([]); // <-- Em vez de falhar, retorna um array vazio.
-      })
-    );
-    
-    // 2. Prepara a chamada de Exames (com seu próprio 'catchError')
-    const exams$ = this.examService.getUserExams().pipe(
-      catchError(err => {
-        console.error("Falha ao buscar exames (na Fachada):", err);
-        return of([]); // <-- Em vez de falhar, retorna um array vazio.
-      })
-    );
-
-    // 3. O forkJoin agora não vai falhar.
-    //    Na pior das hipóteses, ele retorna { certificates: [], exams: [] }
-    return forkJoin({
-      certificates: certificates$,
-      exams: exams$
-    }).pipe(
-      tap(results => {
-        // Log para vermos o que o forkJoin montou
-        console.log('[UserService] Fachada: forkJoin concluído.', results);
-      })
-    );
-  }
-
 }

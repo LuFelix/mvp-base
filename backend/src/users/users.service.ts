@@ -6,7 +6,6 @@ import { FindManyOptions, ILike, Like, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from 'src/roles/entities/role.entity';
-import { UserFilterDto } from 'src/admin/dto/userfilter.dto';
 import * as XLSX from 'xlsx';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { RolesService } from 'src/roles/roles.service';
@@ -134,25 +133,6 @@ export class UsersService {
             data,
             total,
         };
-    }
-
-    async exportToExcel(filters: UserFilterDto): Promise<{ buffer: Buffer; fileName: string }> {
-        const users = await this.findAll(undefined, undefined, filters.name, filters.email, filters.cpf).then(res => res.data);
-
-        const mappedData = users.map(user => ({
-            'Nome': user.name,
-            'E-mail': user.email,
-            'CPF': user.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
-        }));
-
-        const worksheet = XLSX.utils.json_to_sheet(mappedData);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Usuários');
-
-        const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
-        const fileName = `Relatorio_Usuarios_${new Date().toISOString().split('T')[0]}.xlsx`;
-
-        return { buffer, fileName };
     }
 
     async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {

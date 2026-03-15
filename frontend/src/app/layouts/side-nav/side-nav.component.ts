@@ -36,56 +36,8 @@ export class SideNavComponent {
     // Início (Dashboard de Métricas)
     { link: '/app/dashboard', label: 'Início', icon: 'home', requiredPermission: 'VIEW_DASHBOARD' },
 
-    // --- SEÇÃO EDUCACIONAL E FINANCEIRA ---
-
-    // Conteúdos (Teoria, Fórmulas e Apoio Pedagógico)
-    { 
-      link: '/app/content', 
-      label: 'Conteúdos', 
-      icon: 'menu_book' // Sem requiredPermission para que fique aberto, ou defina a permissão desejada
-    },
-
-    // Atividades (Simulador Visual, Conversor e Arena)
-    { 
-      link: '/app/activities', 
-      label: 'Atividades', 
-      icon: 'calculate' 
-    },
-
-    // --- SEÇÃO GERENCIAL E CERTIFICAÇÃO ---
-
     // Usuários (Gerencial)
     { link: '/app/users', label: 'Usuários', icon: 'group', requiredPermission: 'READ_USERS' }, 
-
-    // Certificações (Gerencial)
-    { link: '/app/certifications', label: 'Certificações', icon: 'assignment_turned_in', requiredPermission: 'READ_CERTIFICATIONS' },
-
-    // Certificações Disponíveis (Candidato)
-    {
-      link: '/app/available-certifications', 
-      label: 'Certificações Disponíveis',   
-      icon: 'school',                     
-      requiredPermission: 'TAKE_CERTIFICATIONS' 
-    },
-
-    // Minhas Conquistas (Candidato)
-    {
-      link: '/app/achievements', 
-      label: 'Minhas Conquistas',
-      icon: 'workspace_premium', 
-      requiredPermission: 'TAKE_CERTIFICATIONS'
-    },
-
-    // Convidar Colaboradores
-    { link: '/app/invite', label: 'Convidar', icon: 'person_add', requiredPermission: 'INVITE_USER' }, 
-
-    // Verificar Certificado
-    {
-      link: '/app/certificate/verify', 
-      label: 'Verificar Certificado',  
-      icon: 'verified_user', 
-      requiredPermission: 'TAKE_CERTIFICATIONS' 
-    }
   ];
 
   // Função auxiliar para verificar permissão

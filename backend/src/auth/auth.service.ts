@@ -3,7 +3,6 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
-import { InvitesService } from 'src/invites/invites.service';
 import { CreateUserDto } from 'src/users/dto/user.dto';
 import { RegisterDto, LoginDto, MinimalRegisterDto } from './dto/auth.dto';
 
@@ -11,29 +10,10 @@ import { RegisterDto, LoginDto, MinimalRegisterDto } from './dto/auth.dto';
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
-    private readonly jwtService: JwtService,
-    private readonly invitesService: InvitesService
+    private readonly jwtService: JwtService
   ) { }
 
-  async register(registerDto: RegisterDto): Promise<String> {
-    const { token, ...registerDtoWithoutToken } = registerDto;
-
-    try { this.invitesService.validate(token) } catch (error) {
-      throw new UnauthorizedException('Token de convite inválido ou expirado');
-    }
-
-    const createUserDto: CreateUserDto = {
-      ...registerDtoWithoutToken,
-    }
-
-    const user = await this.usersService.create(createUserDto);
-
-    this.invitesService.completeInvite(token);
-    
-    return user.cpf;
-  }
-
-  async registerWithoutInvitation(registerDto: MinimalRegisterDto): Promise<String> {
+  async register(registerDto: MinimalRegisterDto): Promise<String> {
     const createUserDto: CreateUserDto = {
       ...registerDto,
     }
