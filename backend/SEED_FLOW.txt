@@ -1,0 +1,151 @@
+// FLUXO DO SEED - COMO FUNCIONA
+
+════════════════════════════════════════════════════════════════════════════════
+                      🌱 FLUXO DE EXECUÇÃO DO SEED
+════════════════════════════════════════════════════════════════════════════════
+
+
+                         user$ ./seed.sh docker
+                                   │
+                                   ▼
+                    ┌─────────────────────────────┐
+                    │   Script verifica Docker    │
+                    │  ✓ docker-compose rodando?  │
+                    └─────────────────────────────┘
+                                   │
+                                   ▼
+                  ┌──────────────────────────────────┐
+                  │ Executa no container backend:   │
+                  │  $ npm run seed:verbose         │
+                  └──────────────────────────────────┘
+                                   │
+                                   ▼
+                ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+                ┃  ETAPA 1: Inicializa NestJS       ┃
+                ┃  ─────────────────────────────    ┃
+                ┃  ✓ Carrega AppModule              ┃
+                ┃  ✓ Injeta dependências            ┃
+                ┃  Tempo: ~500ms                    ┃
+                ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+                                   │
+                                   ▼
+                ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+                ┃  ETAPA 2: Testa BD                ┃
+                ┃  ─────────────────────────────    ┃
+                ┃  ✓ Conecta PostgreSQL             ┃
+                ┃  ✓ Query: SELECT 1                ┃
+                ┃  Database: 'meusistema'           ┃
+                ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+                                   │
+                                   ▼
+                ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+                ┃  ETAPA 3: Verifica Dados          ┃
+                ┃  ─────────────────────────────    ┃
+                ┃  Count Roles:    0                ┃
+                ┃  Count Usuarios: 0                ┃
+                ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+                                   │
+                                   ▼
+                ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+                ┃  ETAPA 4: Executa Seeding     ┃
+                ┃  ─────────────────────────────  ┃
+                ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+                ┃  4.1: Cria Roles               ┃
+                ┃  ────────────────────────────  ┃
+                ┃  ✓ Role 'colaborador'          ┃
+                ┃  ✓ Role 'administrador'        ┃
+                ┃  ✓ Role 'gente_e_cultura'      ┃
+                ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+                                   │
+                                   ▼
+                ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+                ┃  4.2: Cria usuário Admin       ┃
+                ┃  ────────────────────────────  ┃
+                ┃  Email: admin@meusistema.com   ┃
+                ┃  CPF: 00000000000              ┃
+                ┃  Role: administrador           ┃
+                ┃  ✓ Salvo no PostgreSQL         ┃
+                ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+                                   │
+                                   ▼
+                ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+                ┃  ETAPA 5: Verifica Resultado   ┃
+                ┃  ─────────────────────────────  ┃
+                ┃  Count Roles:    3 ✓            ┃
+                ┃  Count Usuarios: 1 ✓            ┃
+                ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+                                   │
+                                   ▼
+                ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+                ┃  RESUMO E CREDENCIAIS          ┃
+                ┃  ─────────────────────────────  ┃
+                ┃  ✅ Seeding concluído!         ┃
+                ┃  Tempo total: 2.34s            ┃
+                ┃                                 ┃
+                ┃  Admin:                         ┃
+                ┃  Email: admin@meusistema.com   ┃
+                ┃  Senha: Senha@123              ┃
+                ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+                                   │
+                                   ▼
+                        Conexão com BD encerra
+                        Aplicação NestJS fecha
+                        Script finaliza com exit(0)
+
+
+════════════════════════════════════════════════════════════════════════════════
+                        🔍 DETALHES TÉCNICOS
+════════════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ SEGURANÇA & IDEMPOTÊNCIA                                                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│ Se rodar 2x, o que acontece?                                              │
+│                                                                             │
+│  Etapa 4.1: Cria Roles                                                     │
+│  ────────────────────────────────────────────────────────────              │
+│  findOne({ where: { name: 'colaborador' } })                              │
+│         │                                                                  │
+│         ├─ Não encontrou? → Cria nova role                                │
+│         └─ Já existe?     → Log: "Role já existe"                         │
+│                                                                             │
+│  Etapa 4.2: Cria Usuário Admin                                            │
+│  ────────────────────────────────────────────────────────────              │
+│  findOne({ where: { cpf: '00000000000' } })                               │
+│         │                                                                  │
+│         ├─ Não encontrou? → Cria novo usuário                             │
+│         └─ Já existe?     → Log: "Usuário já existe"                      │
+│                                                                             │
+│  ✅ RESULTADO: Totalmente seguro rodar múltiplas vezes!                  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ TRATAMENTO DE ERROS                                                         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  Erro em qualquer etapa:                                                   │
+│         │                                                                  │
+│         ├─ Log com detalhes do erro (nome, mensagem, stack)               │
+│         ├─ Mostra tempo até o erro                                        │
+│         ├─ Encerra conexões corretamente (finally block)                 │
+│         └─ Exit code 1 (para CI/CD saber que falhou)                      │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ LOGS & CORES                                                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ✓  Verde    → Sucesso / Ação concluída                                  │
+│  ✗  Vermelho → Erro / Falha                                              │
+│  ℹ  Ciano    → Informação geral                                          │
+│  ⚠  Amarelo  → Aviso / Atenção                                           │
+│  ▶  Azul     → Seção / Etapa                                             │
+│  →  Cinza    → Detalhes / Subitens                                       │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+════════════════════════════════════════════════════════════════════════════════

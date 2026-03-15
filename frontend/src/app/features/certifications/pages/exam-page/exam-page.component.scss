@@ -1,0 +1,92 @@
+/* Adiciona um espaço (margin) abaixo de cada card de questão */
+.question-card {
+  margin-bottom: 24px;
+}
+
+/* Centraliza o botão "Enviar Prova" */
+.submit-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0; // Adiciona um espaço vertical
+}
+
+/* Estilos do container principal (copiados do seu HTML) */
+.exam-container {
+  max-width: 900px;
+  margin: 24px auto; // Centraliza o bloco da prova na página
+  padding: 0 16px;
+}
+
+/* (O restante dos seus estilos de timer, spinner, etc. permanece) */
+
+.loading-spinner,
+.error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 0;
+  gap: 16px;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+  }
+  p {
+    font-size: 1.1em;
+  }
+}
+
+.timer-bar {
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.timer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f5f5f5;
+  font-weight: 500;
+  color: #333;
+
+  .timer-clock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1em;
+    color: #3f51b5; // Azul primário
+  }
+}
+
+.exam-title {
+  font-size: 1.8em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.exam-subtitle {
+  font-size: 1em;
+  color: #666;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 16px;
+}
+
+.question-text {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.answer-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inline-spinner {
+  margin-right: 8px;
+}

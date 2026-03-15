@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <button class="hamburger" aria-label="Abrir menu" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen">
+    <mat-icon>{{ menuOpen ? 'close' : 'menu' }}</mat-icon>
+  </button>
+
+  <img src="logo2.png" alt="Logo" class="logo" />
+
+  <ul class="nav-links" [class.open]="menuOpen">
+    <li><a href="#about" (click)="closeMenu()">Sobre nós</a></li>
+    <li><a href="#jobs" (click)="closeMenu()">Vagas</a></li>
+    <li><a href="#contact" (click)="closeMenu()">Contato</a></li>
+    <li><a href="/login" (click)="closeMenu()">Login</a></li>
+  </ul>
+
+  <mat-slide-toggle (change)="toggleDarkMode()" [checked]="darkMode" aria-label="Alternar modo escuro"
+    class="dark-mode-toggle">
+    <mat-icon>{{ darkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
+  </mat-slide-toggle>
+</nav>
+
+
+<button mat-fab class="btn-top" [class.show]="showButton" (click)="scrollToTop()"
+  aria-label="Voltar ao topo">
+  <mat-icon>arrow_upward</mat-icon>
+</button>

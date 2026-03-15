@@ -1,0 +1,45 @@
+.container {
+    background-image: url('/macbook-air-on-desk.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 16px;
+
+    mat-card {
+        background-color: var(--mat-sys-primary-container);
+        box-shadow: var(--mat-sys-level5);
+        padding: 32px 24px;
+        max-width: 400px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        margin: 16px;
+
+        mat-card-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+        }
+
+        .hero-text {
+            color: var(--mat-sys-on-primary-container-variant);
+            font: var(--mat-sys-title-large);
+        }
+
+        .login-button {
+            font: var(--mat-sys-display-small);
+            height: 5rem;
+            width: 15rem;
+            color: var(--mat-sys-on-primary-container-variant);
+        }
+    }
+}

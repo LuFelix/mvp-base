@@ -1,0 +1,33 @@
+@if (activityId) {
+  
+  @if (layoutService.layout() === 'moderno') {
+    <app-activity-take-modern
+      [isLoading]="isLoading"
+      [errorLoading]="errorLoading"
+      [activity]="activity"
+      [isDownloading]="isDownloading"
+      (start)="startActivity()"
+      (downloadMaterial)="downloadMaterial()"
+      (retryLoad)="loadActivityDetails()"
+      (goBack)="goBack()"> 
+    </app-activity-take-modern>
+
+  } @else {
+    <app-activity-take-classic
+      [isLoading]="isLoading"
+      [errorLoading]="errorLoading"
+      [activity]="activity"
+      [isDownloading]="isDownloading"
+      (start)="startActivity()"
+      (downloadMaterial)="downloadMaterial()"
+      (retryLoad)="loadActivityDetails()"
+      (goBack)="goBack()">
+    </app-activity-take-classic>
+  }
+  
+} @else {
+  <div class="error-message">
+    <mat-icon color="warn">error_outline</mat-icon>
+    <p>ID da ferramenta não encontrado na URL.</p>
+  </div>
+}

@@ -1,0 +1,119 @@
+// SEED_QUICKSTART.txt
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║   🌱 SEED - QUICK START                                                      ║
+║   Popule seu banco de dados em 30 segundos!                                 ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 1️⃣  MÉTODO MAIS FÁCIL (Recomendado para Docker)                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Abra o terminal NA PASTA DO BACKEND e execute:
+
+  $ ./seed.sh docker
+
+Isso roda o seed dentro do seu container Docker e mostra o progresso!
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 2️⃣  MÉTODO COM NPM (se você está localmente)                                │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Na pasta do backend, execute:
+
+  $ npm run seed:verbose
+
+Mostra todos os passos com cores e detalhes!
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 3️⃣  SCRIPT SHELL DIRETO                                                     │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Na pasta do backend:
+
+  $ ./seed.sh               # Verbose (com detalhes) ← RECOMENDADO
+  $ ./seed.sh simple        # Simples (menos logs)
+  $ ./seed.sh docker        # Dentro do Docker
+  $ ./seed.sh help          # Ver ajuda
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║ ✨ O QUE SERÁ CRIADO                                                         ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✓ 3 Roles (Papéis/Funções):
+  • colaborador
+  • administrador
+  • gente_e_cultura
+
+✓ 1 Usuário Administrador:
+  CPF:      00000000000
+  Email:    admin@meusistema.com
+  Senha:    Senha@123
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║ 🎯 PRÓXIMOS PASSOS                                                          ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+1. Execute um dos comandos acima para fazer o seed
+2. Abra seu frontend no navegador
+3. Faça login com as credenciais:
+   Email:  admin@meusistema.com
+   Senha:  Senha@123
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║ 🆘 COM PROBLEMAS?                                                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+❌ "Connection refused"
+   → Docker não está rodando
+   → Execute: docker-compose up -d
+
+❌ "npm: command not found"
+   → Node.js não está instalado ou não está no PATH
+   → Instale: apt-get install nodejs npm (no Docker)
+
+❌ "Table does not exist"
+   → As migrations ainda não rodaram
+   → Execute: npm run orm migration:run
+
+❌ Seed rodou mas não apareceu na UI
+   → Limpe o cache do browser (Ctrl+F5)
+   → Ou use o modo anônimo
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║ 📚 DOCUMENTAÇÃO COMPLETA                                                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Veja o arquivo SEEDING_GUIDE.md para documentação completa com:
+- Explicação detalhada de cada etapa
+- Troubleshooting avançado
+- Output esperado
+- Configurações avançadas
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║ 🔧 ARQUIVOS CRIADOS                                                         ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✓ src/run-seed.ts         - Script principal com logs detalhados
+✓ seed.sh                 - Shell script para facilitar execução
+✓ SEEDING_GUIDE.md        - Documentação completa
+✓ package.json            - Script npm: seed:verbose
+
+
+═════════════════════════════════════════════════════════════════════════════════
+
+💡 DICA: Se rodar duas vezes, não duplica dados! É seguro!
+
+💡 DICA: Use o seed.sh porque ele verifica automaticamente se o Docker está up
+
+═════════════════════════════════════════════════════════════════════════════════

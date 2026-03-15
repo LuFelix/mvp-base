@@ -1,0 +1,20 @@
+<div class="available-activities-container">
+  
+  @if (layoutService.layout() === 'moderno') {
+    <app-activities-card-grid-modern
+      [isLoading]="isLoading"
+      [errorLoading]="errorLoading"
+      [activities]="activities"
+      (retryLoad)="loadActivities()">
+    </app-activities-card-grid-modern>
+    
+  } @else {
+    <app-activities-card-grid-classic
+      [isLoading]="isLoading"
+      [errorLoading]="errorLoading"
+      [activities]="activities"
+      (retryLoad)="loadActivities()">
+    </app-activities-card-grid-classic>
+  }
+
+</div>

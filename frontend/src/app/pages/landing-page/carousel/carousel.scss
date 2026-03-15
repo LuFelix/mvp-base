@@ -1,0 +1,56 @@
+.carousel-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: var(--mat-sys-surface-container);
+}
+
+img {
+  width: clamp(300px, 30vw, 500px);
+  padding: 1rem;
+  margin-top: 50px;
+  filter: invert(38%) sepia(65%) saturate(300%) hue-rotate(190deg);
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  min-height: 200px;
+  padding-top: 2rem;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  min-height: 200px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  text-align: center;
+  background-color: var(--mat-sys-secondary-container);
+  border-radius: 10px;
+  box-shadow: var(--mat-sys-level5);
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.slide h2 {
+  font: var(--mat-sys-display-small);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.slide p {
+  font: var(--mat-sys-body-large);
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}

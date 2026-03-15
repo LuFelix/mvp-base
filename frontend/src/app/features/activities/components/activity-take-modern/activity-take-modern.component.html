@@ -1,0 +1,90 @@
+<div class="cert-take-container">
+
+  <button mat-fab extended color="primary" (click)="goBack.emit()" class="back-button">
+    <mat-icon>arrow_back</mat-icon> Voltar para o Laboratório
+  </button>
+
+  @if (isLoading) {
+    <div class="loading-spinner">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Carregando simulador matemático...</p>
+    </div>
+  }
+
+  @if (!isLoading && errorLoading) {
+    <div class="error-message">
+      <mat-icon color="warn">error_outline</mat-icon>
+      <p>Não foi possível carregar os detalhes.</p>
+      <button mat-stroked-button color="primary" (click)="retryLoad.emit()">Tentar Novamente</button>
+    </div>
+  }
+
+  @if (!isLoading && !errorLoading && activity) {
+    
+    <mat-card class="cert-details-card activity-bg">
+      
+      <div class="modality-badge">
+        <mat-icon>{{ getActivityIcon(activity.type) }}</mat-icon>
+        <span>{{ activity.type | titlecase }}</span>
+        
+        @if (activity.hasAI) {
+          <span class="ai-chip">
+            <mat-icon class="ai-icon">auto_awesome</mat-icon> IA
+          </span>
+        }
+      </div>
+
+      <div class="cert-info-wrapper">
+          
+          <mat-card-header>
+            <mat-card-title>{{ activity.name }}</mat-card-title>
+            <mat-card-subtitle>{{ activity.shortDescription }}</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content class="cert-utilities">
+            
+            <button mat-stroked-button 
+                    color="primary"
+                    (click)="downloadMaterial.emit()" 
+                    [disabled]="!activity.pdfPath || isDownloading">
+              
+              @if (isDownloading) {
+                <mat-spinner [diameter]="20"></mat-spinner>
+              } @else {
+                <mat-icon>menu_book</mat-icon>
+              }
+              <span>{{ isDownloading ? 'Baixando...' : 'Material Pedagógico' }}</span>
+            </button>
+            
+            <div class="discreet-stats">
+              <span>
+                <mat-icon>category</mat-icon> {{ activity.category }}
+              </span>
+              <span>
+                <mat-icon>bar_chart</mat-icon> Nível {{ activity.difficultyLevel }}
+              </span>
+            </div>
+            
+          </mat-card-content>
+
+          <mat-divider></mat-divider>
+
+          <mat-card-content class="description-content">
+            <h2 class="section-title">Sobre esta Ferramenta</h2>
+            <div class="description-text" [innerHTML]="activity.description || 'Nenhuma descrição detalhada disponível.'"></div>
+          </mat-card-content>
+          
+          <mat-card-actions align="end" class="cert-actions">
+            <button mat-raised-button
+                    color="primary"
+                    (click)="start.emit()"
+                    class="start-button">
+                <mat-icon>play_circle_filled</mat-icon>
+                <span>Iniciar Simulação Interativa</span>
+            </button>
+          </mat-card-actions>
+          
+      </div> 
+    </mat-card> 
+  }
+</div>

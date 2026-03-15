@@ -1,0 +1,68 @@
+<div class="classic-container">
+  <div class="page-header">
+    <h1>Laboratório Financeiro</h1>
+    <p class="subtitle">Lista de ferramentas interativas disponíveis para simulação.</p>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+
+@if (isLoading) {
+  <div class="loading-spinner">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Carregando dados...</p>
+  </div>
+}
+
+@if (!isLoading && errorLoading) {
+  <div class="error-message">
+    <mat-icon color="warn">error</mat-icon>
+    <p>Erro ao carregar as atividades.</p>
+    <button mat-stroked-button color="primary" (click)="retryLoad.emit()">Tentar Novamente</button>
+  </div>
+}
+
+@if (!isLoading && !errorLoading) {
+  @if (activities.length > 0) {
+    <div class="activities-list-classic">
+      @for (activity of activities; track activity.id) {
+        
+        <mat-card class="classic-card" (click)="viewActivity(activity.id)">
+          <div class="card-content-row">
+            
+            <div class="main-info">
+              <div class="icon-box">
+                <mat-icon>{{ getActivityIcon(activity.type) }}</mat-icon>
+              </div>
+              <div class="text-content">
+                <h3 class="card-title">{{ activity.name }}</h3>
+                <p class="card-subtitle">{{ activity.shortDescription }}</p>
+              </div>
+            </div>
+
+            <div class="stats-row">
+              <div class="stat">
+                <span class="label">Categoria</span>
+                <span class="value">{{ activity.category }}</span>
+              </div>
+              <div class="stat">
+                <span class="label">Nível</span>
+                <span class="value">{{ activity.difficultyLevel || '-' }}</span>
+              </div>
+              <div class="stat">
+                <span class="label">IA</span>
+                <span class="value">{{ activity.hasAI ? 'Integrada' : 'N/A' }}</span>
+              </div>
+            </div>
+
+            <div class="action-column">
+              <button mat-button color="primary">Acessar</button>
+            </div>
+
+          </div>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    <p class="no-activities">Nenhum item encontrado.</p>
+  }
+}
