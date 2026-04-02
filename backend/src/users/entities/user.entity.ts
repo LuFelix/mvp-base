@@ -5,56 +5,56 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
-    id: number;
+    id!: number;
 
     @Column({ length: 100, nullable: false })
-    name: string;
+    name!: string;
 
     @Index({ unique: true }) 
     @Column({ length: 100, nullable: false, unique: true })
-    email: string;
+    email!: string;
 
     @Index({ unique: true })
-    @Column({ length: 11, unique: true, nullable: true }) 
-    cpf: string;
+    @Column({ type: 'varchar', length: 11, unique: true, nullable: true }) 
+    cpf!: string | null;
 
-    @Column({ length: 11, nullable: true })
-    phonenumber: string;
+    @Column({ type: 'varchar', length: 11, nullable: true })
+    phonenumber!: string | null;
 
-    @Column({ length: 8, nullable: true })
-    cep: string;
+    @Column({ type: 'varchar', length: 8, nullable: true })
+    cep!: string | null;
 
-    @Column({ length: 2, nullable: true })
-    uf: string;
+    @Column({ type: 'varchar', length: 2, nullable: true })
+    uf!: string | null;
 
-    @Column({ length: 30, nullable: true })
-    city: string;
+    @Column({ type: 'varchar',length: 30, nullable: true })
+    city!: string | null;
 
-    @Column({ length: 40, nullable: true })
-    neighborhood: string;
+    @Column({type: 'varchar', length: 40, nullable: true })
+    neighborhood!: string | null;
 
-    @Column({ length: 100, nullable: true })
-    street: string;
+    @Column({ type: 'varchar',length: 100, nullable: true })
+    street!: string | null;
 
-    @Column({ length: 100, nullable: false })
-    password: string;
+    @Column({ type: 'varchar', length: 100, nullable: false })
+    password!: string;
 
     @ManyToOne(() => Role, role => role.users)
     @JoinColumn({ name: 'role_id' })
-    role: Role;
+    role!: Role;
 
     @CreateDateColumn()
-    createdAt: Date;
+    createdAt!: Date;
 
     @UpdateDateColumn()
-    updatedAt: Date;
+    updatedAt!: Date;
 
     @Column({ default: false })
-    isVerified: boolean;
+    isVerified!: boolean;
 
     @Column({ type: 'varchar', nullable: true })
-    verificationCode: string | null;
+    verificationCode!: string | null;
 
     @Column({ type: 'timestamp', nullable: true })
-    verificationExpires: Date| null;
+    verificationExpires!: Date | null;
 }

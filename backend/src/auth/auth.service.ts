@@ -16,32 +16,40 @@ export class AuthService {
   ) { }
 
  async register(registerDto: MinimalRegisterDto): Promise<string> {
-  const code = Math.floor(100000 + Math.random() * 900000).toString();
-  const expires = new Date();
-  expires.setMinutes(expires.getMinutes() + 15);
   
-  const createUserDto: CreateUserDto = {
-      name: registerDto.name,
-      email: registerDto.email,
-      password: registerDto.password,
-    }
+    // 1. Log de entrada para comparar com o Postman
+    console.log('[DEBUG] Dados recebidos do Angular:', registerDto);
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const expires = new Date();
+    expires.setMinutes(expires.getMinutes() + 15);
+    
+    // 2. Garanta que o CreateUserDto tenha o que o banco pede
+    const createUserDto = {
+        name: registerDto.name,
+        email: registerDto.email,
+        password: registerDto.password,
+        
+    };
 
     const user = await this.usersService.create(createUserDto);
 
-// 3. Salva o código no banco (certifique-se de ter o método saveUser ou fazer direto no repository)
-   await this.usersService.setVerificationData(user.id, code, expires);
+    await this.usersService.setVerificationData(user.id, code, expires);
 
-    // 4. DISPARO REAL DO E-MAIL
-    await this.mailerService.sendMail({
+    try {
+      await this.mailerService.sendMail({
       to: user.email,
       subject: 'Seu código de verificação',
-      text: `Olá ${user.name}, seu código de verificação é: ${code}. Ele expira em 15 minutos.`,
+      text: `Olá ${user.name}, seu código de verificação é: ${code}.`,
     });
 
-
-    return user.email; 
+  } catch (mailError: any) {
+       console.error('Falha ao enviar e-mail HostGator, mas cadastro OK:', mailError.message);
   }
 
+  return user.email; // O servidor vai responder 201 agora!
+    
+}
   async verifyEmailCode(email: string, code: string): Promise<{ message: string }> {
     const user = await this.usersService.findByEmail(email);
 
