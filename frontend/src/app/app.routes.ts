@@ -17,6 +17,13 @@ export const routes: Routes = [
     { path: '', component: LandingPage }, // Rota raiz pública
     // Rota para Acesso Negado
     { path: 'unauthorized', component: UnauthorizedComponent },
+    {
+        path: 'register',
+        title: 'Criar Conta | Educa-IA', // Título que aparece na aba do navegador
+        loadComponent: () => 
+        import('./features/auth/register/register-page/register-page.component')
+            .then(m => m.RegisterPageComponent)
+    },
     // Rotas Protegidas
     {
         path: 'app', // Prefixo para rotas autenticadas (ou pode ser '')
@@ -47,6 +54,7 @@ export const routes: Routes = [
                 loadChildren: () => import('./features/users/pages/profile-page/profile.routes').then(m => m.PROFILE_ROUTES),
                 // Geralmente não precisa de guarda específico aqui, só o authGuard do pai
             },
+            
             //outras rotas filhas aqui
         ]
     },

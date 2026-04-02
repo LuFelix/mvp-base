@@ -101,6 +101,10 @@ export class AuthService {
     return this.http.post(url, registrationData);
   }
 
+  verifyEmailCode(payload: { email: string; code: string }): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.BASE_PATH}/verify-email`, payload);
+  }
+
   // --- Métodos de Token e Sessão ---
 
   private setSession(token: string): void {
@@ -233,4 +237,14 @@ export class AuthService {
            role: decoded.role
        };
    }
+   /**
+ * Solicita ao NestJS o reenvio do código de confirmação via SMTP (HostGator)
+ * @param email O e-mail do usuário que precisa do novo código
+ */
+  resendConfirmationCode(email: string): Observable<any> {
+    // Ajuste o endpoint conforme a rota que criamos no NestJS (ex: /auth/resend-code)
+    return this.http.post(`${this.API_URL}/resend-code`, { email });
+  }
+
+   
 }

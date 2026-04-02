@@ -3,6 +3,12 @@ export interface LoginResponse {
 }
 
 export interface LoginCredentials {
-  identifier: string; // Alterado de 'cpf' para bater com o backend!
+  identifier: string; 
+  password: string;
+}
+
+export interface RegistrationData {
+  name: string;
+  email: string;
   password: string;
 }

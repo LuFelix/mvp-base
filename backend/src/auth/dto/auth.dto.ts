@@ -10,16 +10,16 @@ export class RegisterDto {
     example: 'a12b3c4d5f6g7h8i9j0k',
   })
   @IsString()
-  token: string;
+  token!: string;
 
   @ApiProperty({
     description: 'CPF do usuário, que pode ser enviado com ou sem máscara.',
     example: '123.456.678-90',
   })
 
-  @ApiProperty({ example: 'luciano@exemplo.com ou 12345678901' })
+  @ApiProperty({ example: 'pedrosilva@exemplo.com ou 12345678901' })
   @IsNotEmpty({ message: 'O identificador (E-mail ou CPF) é obrigatório' })
-  identifier: string;
+  identifier!: string;
   
   @ApiProperty({
     description: 'Nome completo do usuário.',
@@ -109,12 +109,12 @@ export class RegisterDto {
 export class LoginDto {
   @ApiProperty({ example: 'luciano@exemplo.com ou 12345678901' })
   @IsNotEmpty({ message: 'O identificador (E-mail ou CPF) é obrigatório' })
-  identifier: string; 
+  identifier!: string;
 
   @ApiProperty({ example: '123456' })
   @IsString()
   @IsNotEmpty()
-  password: string;
+  password!: string;
 }
 
 export class MinimalRegisterDto {
@@ -148,10 +148,10 @@ export class VerifyEmailDto {
   @ApiProperty({ example: 'seu_email_real@dominio.com.br' })
   @IsEmail({}, { message: 'E-mail inválido' })
   @IsNotEmpty()
-  email: string;
+  email!: string;
 
   @ApiProperty({ example: '123456' })
   @IsString()
   @IsNotEmpty()
-  code: string;
+  code!: string;
 }

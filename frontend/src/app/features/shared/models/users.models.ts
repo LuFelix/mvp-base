@@ -45,7 +45,7 @@ export interface User {
 // --- Interface para Registro (Usada pelo AuthService) ---
 export interface RegistrationData {
   token?: string; // Token pode ser de convite, opcional dependendo do fluxo
-  cpf: string;
+  cpf?: string;
   name: string;
   email: string;
   phonenumber?: string;
