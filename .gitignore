@@ -6,6 +6,10 @@
 !.env.example
 *.pem
 *.key
+# Logs e arquivos de sistema
+*.log
+.DS_Store
+
 
 # ==========================================
 # 2. DEPENDÊNCIAS E BUILD (GLOBAL NODE)
@@ -38,7 +42,14 @@ tmp/
 /libpeerconnection.log
 testem.log
 /typings/
+<<<<<<< HEAD
 .angular/
+=======
+# Cache do Angular e builds
+**/frontend/.angular/
+**/frontend/dist/
+**/.angular/
+>>>>>>> cf60ee4dd4b9dcbae13dc347a8e071ca002506b1
 
 # ==========================================
 # 5. BACKEND ESPECÍFICO (NESTJS)
@@ -48,6 +59,10 @@ testem.log
 pids/
 *.pid
 *.pid.lock
+# Cache do NestJS e builds
+**/backend/dist/
+**/backend/node_modules/
+node_modules/
 
 # ==========================================
 # 6. TESTES E LOGS GERAIS
