@@ -42,14 +42,11 @@ tmp/
 /libpeerconnection.log
 testem.log
 /typings/
-<<<<<<< HEAD
 .angular/
-=======
 # Cache do Angular e builds
 **/frontend/.angular/
 **/frontend/dist/
 **/.angular/
->>>>>>> cf60ee4dd4b9dcbae13dc347a8e071ca002506b1
 
 # ==========================================
 # 5. BACKEND ESPECÍFICO (NESTJS)
