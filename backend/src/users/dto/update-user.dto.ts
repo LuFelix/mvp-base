@@ -3,6 +3,7 @@ import { IsOptional, IsString, IsEmail, Length, Matches } from 'class-validator'
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateUserDto {
+  
   @ApiPropertyOptional({ description: 'Nome completo do usuário' })
   @IsOptional()
   @IsString()
@@ -21,6 +22,12 @@ export class UpdateUserDto {
   @Length(10, 11)
   @Matches(/^\d{10,11}$/, { message: 'Telefone deve ter 10 ou 11 dígitos' })
   phonenumber?: string;
+
+  @ApiPropertyOptional({ description: 'CPF do usuário' })
+  @IsOptional()
+  @IsString()
+  cpf?: string;
+
 
   @ApiPropertyOptional({ description: 'CEP (apenas números)' })
   @IsOptional()
@@ -62,5 +69,5 @@ export class UpdateUserDto {
   @ApiPropertyOptional({ description: 'Nome da role (string)' })
   @IsOptional()
   @IsString()
-  role?: string;
+  roleId?: string;
 }

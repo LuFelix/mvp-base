@@ -1,4 +1,3 @@
-// roles/roles.controller.ts
 import { 
   Body, 
   Controller, 
@@ -7,7 +6,7 @@ import {
   Put, 
   Delete, 
   Param, 
-  ParseIntPipe,
+  ParseUUIDPipe, // <-- Importado o ParseUUIDPipe
   Query 
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
@@ -16,43 +15,26 @@ import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery, ApiBody } from 
 import { Role } from './entities/role.entity';
 import { UpdateRoleDto } from './dto/update-role.dto';
 
-/**
- * Controller responsável por gerenciar os endpoints relacionados a 'roles'.
- */
 @ApiTags('Roles')
 @Controller('roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
-  /**
-   * Endpoint para criar uma nova 'role'.
-   */
   @Post('create')
   @ApiOperation({ summary: 'Cria uma nova role' })
   @ApiBody({ type: CreateRoleDto })
-  @ApiResponse({ 
-    status: 201, 
-    description: 'Role criada com sucesso',
-    type: Role
-  })
+  @ApiResponse({ status: 201, description: 'Role criada com sucesso', type: Role })
   @ApiResponse({ status: 400, description: 'Requisição inválida' })
   @ApiResponse({ status: 409, description: 'Role já existe' })
   async createRole(@Body() createRoleDto: CreateRoleDto): Promise<Role> {
     return this.rolesService.create(createRoleDto);
   }
 
-  /**
-   * Endpoint para buscar todas as 'roles'.
-   */
   @Get()
   @ApiOperation({ summary: 'Lista todas as roles' })
   @ApiQuery({ name: 'page', required: false, type: Number, description: 'Page number (default: 1)' })
   @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Items per page (default: 10)' })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Roles listadas com sucesso',
-    type: [Role]
-  })
+  @ApiResponse({ status: 200, description: 'Roles listadas com sucesso', type: [Role] })
   async findAll(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
@@ -63,71 +45,44 @@ export class RolesController {
     return this.rolesService.findAll(page, limit);
   }
 
-  /**
-   * Endpoint para buscar uma 'role' específica pelo ID.
-   */
   @Get(':id')
   @ApiOperation({ summary: 'Lista uma role específica pelo ID' })
-  @ApiParam({ name: 'id', description: 'Role ID', type: Number })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Role Encontrada',
-    type: Role
-  })
+  @ApiParam({ name: 'id', description: 'Role ID', type: String }) // <-- Tipo String no Swagger
+  @ApiResponse({ status: 200, description: 'Role Encontrada', type: Role })
   @ApiResponse({ status: 404, description: 'Role não encontrada' })
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Role> {
-    return this.rolesService.findOne(id);
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Role> { // <-- ParseUUIDPipe e string
+    return this.rolesService.findOne(id); // <-- string pro service
   }
 
-  /**
-   * Endpoint para atualizar uma 'role' específica pelo ID.
-   */
   @Put(':id')
   @ApiOperation({ summary: 'Atualiza uma role pelo ID' })
-  @ApiParam({ name: 'id', description: 'Role ID', type: Number })
+  @ApiParam({ name: 'id', description: 'Role ID', type: String }) // <-- Tipo String no Swagger
   @ApiBody({ type: UpdateRoleDto })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Role atualizada com sucesso',
-    type: Role
-  })
+  @ApiResponse({ status: 200, description: 'Role atualizada com sucesso', type: Role })
   @ApiResponse({ status: 400, description: 'Requisição inválida' })
   @ApiResponse({ status: 404, description: 'Role não encontrada' })
   @ApiResponse({ status: 409, description: 'Nome da role já existe' })
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string, // <-- ParseUUIDPipe e string
     @Body() updateRoleDto: UpdateRoleDto
   ): Promise<Role> {
-    return this.rolesService.update(id, updateRoleDto);
+    return this.rolesService.update(id, updateRoleDto); // <-- string pro service
   }
 
-  /**
-   * Endpoint para excluir uma 'role' específica pelo ID.
-   */
   @Delete(':id')
   @ApiOperation({ summary: 'Exclui uma role pelo ID' })
-  @ApiParam({ name: 'id', description: 'Role ID', type: Number })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Role excluída com sucesso'
-  })
+  @ApiParam({ name: 'id', description: 'Role ID', type: String }) // <-- Tipo String no Swagger
+  @ApiResponse({ status: 200, description: 'Role excluída com sucesso' })
   @ApiResponse({ status: 404, description: 'Role não encontrada' })
   @ApiResponse({ status: 409, description: 'Não é possível excluir a role: há usuários associados a esta role' })
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return this.rolesService.remove(id);
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> { // <-- ParseUUIDPipe e string
+    return this.rolesService.remove(id); // <-- string pro service
   }
 
-  /**
-   * Endpoint para buscar uma 'role' específica pelo nome.
-   */
   @Get('name/:name')
   @ApiOperation({ summary: 'Lista uma role específica pelo nome' })
   @ApiParam({ name: 'name', description: 'Nome da role' })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Role encontrada',
-    type: Role
-  })
+  @ApiResponse({ status: 200, description: 'Role encontrada', type: Role })
   @ApiResponse({ status: 404, description: 'Role não encontrada' })
   async findOneByName(@Param('name') name: string): Promise<Role> {
     return this.rolesService.findOneByName(name);

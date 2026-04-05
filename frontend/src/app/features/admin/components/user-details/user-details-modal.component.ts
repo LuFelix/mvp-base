@@ -102,8 +102,12 @@ export class UserDetailsModalComponent implements OnInit {
                     name: loadedUser.name,
                     email: loadedUser.email,
                     cpf: loadedUser.cpf,
-                    isActive: loadedUser.isActive 
+                    isActive: loadedUser.isActive
+                     
                 });
+                if (loadedUser.role && loadedUser.role.id) {
+                  this.roleIdControl.setValue(loadedUser.role.id);
+                }
                 this.userForm.get('password')?.clearValidators();
                 this.userForm.get('password')?.updateValueAndValidity();
             });
@@ -112,7 +116,7 @@ export class UserDetailsModalComponent implements OnInit {
     
 
     /**
-     * O MÉTODO QUE ESTAVA FALTANDO
+     * Salvar Usuário (Criação ou Edição)
      */
     saveUser(): void {
         if (this.userForm.invalid) return;
