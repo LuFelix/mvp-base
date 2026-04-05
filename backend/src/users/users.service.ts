@@ -72,7 +72,7 @@ export class UsersService {
 
         return this.usersRepository.save(user);
     }
-    async updateRole(userId: number, roleName: string): Promise<User> {
+    async updateRole(userId: string, roleName: string): Promise<User> {
         const user = await this.usersRepository.findOneBy({ id: userId });
         if (!user) {
             throw new NotFoundException(`Usuário com o ID "${userId}" não encontrado.`);
@@ -104,7 +104,7 @@ export class UsersService {
      * @param {string} userId - Id do usuário no banco de dados.
      * @returns {Promise<User | null>} Usuário encontrado ou null.
      */
-    async findById(userId: number): Promise<User | null> {
+    async findById(userId: string): Promise<User | null> {
         return this.usersRepository.findOne({ where: { id: userId }, relations: ['role'] });
     }
 
@@ -151,7 +151,7 @@ export class UsersService {
         };
     }
 
-    async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> { 
         const user = await this.usersRepository.findOne({
             where: { id },
             relations: ['role'],
@@ -174,16 +174,16 @@ export class UsersService {
             updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
         }
 
-        // Handle role separately
-        if (updateUserDto.role) {
-            const role = await this.rolesService.findOneByName(updateUserDto.role);
+        // LÓGICA CORRIGIDA: Usa o roleId (UUID) para buscar e atribuir a role
+        if (updateUserDto.roleId) {
+            const role = await this.rolesService.findOne(updateUserDto.roleId); // Busca por ID, não por Nome
             user.role = role;
         }
 
-        // Create a copy of the DTO without the role property
-        const { role: roleFromDto, ...userUpdateData } = updateUserDto;
+        // Remove o roleId do DTO para o TypeORM não tentar inserir numa coluna solta
+        const { roleId, ...userUpdateData } = updateUserDto;
 
-        // Now merge only the compatible properties
+        // Mescla as outras propriedades normais (nome, email, etc)
         const updatedUser = this.usersRepository.merge(user, userUpdateData);
 
         return this.usersRepository.save(updatedUser);
@@ -193,7 +193,7 @@ export class UsersService {
      * Injeta o código de verificação e a data de expiração no usuário.
      * Chamado logo após a criação da conta.
      */
-    async setVerificationData(userId: number, code: string, expires: Date): Promise<void> {
+    async setVerificationData(userId: string, code: string, expires: Date): Promise<void> {
         await this.usersRepository.update(userId, {
             verificationCode: code,
             verificationExpires: expires,
@@ -204,7 +204,7 @@ export class UsersService {
      * Marca o e-mail do usuário como verificado e limpa os dados temporários.
      * Chamado quando o usuário acerta o código enviado por e-mail.
      */
-    async markEmailAsVerified(userId: number): Promise<void> {
+    async markEmailAsVerified(userId: string): Promise<void> {
         await this.usersRepository.update(userId, {
             isVerified: true,
             verificationCode: null,
@@ -217,21 +217,20 @@ export class UsersService {
         where: { email }, 
         relations: ['role'] 
   });
-}
-/**
+    }
+    /**
      * Remove um usuário do sistema pelo ID.
      * * @param {number} id - ID do usuário a ser removido.
      * @throws {NotFoundException} Se o usuário não existir.
      * @returns {Promise<{ message: string }>} Mensagem de sucesso.
      */
-    async remove(id: number): Promise<{ message: string }> {
+    async remove(id: string): Promise<{ message: string }> { 
         const user = await this.usersRepository.findOneBy({ id });
         
         if (!user) {
             throw new NotFoundException(`Usuário com ID ${id} não encontrado.`);
         }
 
-        // Deleta o usuário do banco de dados
         await this.usersRepository.delete(id);
 
         return { message: `Usuário com ID ${id} foi removido com sucesso.` };

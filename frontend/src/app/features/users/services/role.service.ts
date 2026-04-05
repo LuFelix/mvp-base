@@ -2,6 +2,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 // Você deve garantir que os modelos acima (Role, Permission, etc.) sejam importáveis
 import { Role, Permission, CreateRoleDTO, UpdateRoleDTO } from '../../shared/models/role.model'; 
 
@@ -24,7 +25,12 @@ export class RoleService {
      * Rota: GET /roles
      */
     findAllActiveRoles(): Observable<Role[]> {
-        return this.http.get<Role[]>(BASE_PATH);
+        return this.http.get<any>(BASE_PATH).pipe(
+            // O map intercepta a resposta do NestJS.
+            // Se a lista vier dentro de uma propriedade 'data' (paginação), ele extrai. 
+            // Se já vier como array direto, ele repassa.
+            map(response => response.data ? response.data : response)
+        );
     }
     
     /**

@@ -86,7 +86,7 @@ export class RolesService {
      * @returns {Promise<Role>} A 'role' encontrada
      * @throws {NotFoundException} Se a 'role' não for encontrada
      */
-    async findOne(id: number): Promise<Role> {
+    async findOne(id: string): Promise<Role> {
         const role = await this.rolesRepository.findOne({
             where: { id },
         });
@@ -128,7 +128,7 @@ export class RolesService {
      * @throws {NotFoundException} Se a 'role' não for encontrada
      * @throws {BadRequestException} Se o novo nome já estiver em uso por outra 'role'
      */
-    async update(id: number, updateRoleDto: UpdateRoleDto): Promise<Role> {
+    async update(id: string, updateRoleDto: UpdateRoleDto): Promise<Role> {
         const existingRole = await this.findOne(id);
 
         // Verificar se o novo nome já existe (excluindo a role atual)
@@ -161,7 +161,7 @@ export class RolesService {
      * @throws {NotFoundException} Se a 'role' não for encontrada
      * @throws {BadRequestException} Se houver usuários associados à 'role'
      */
-    async remove(id: number): Promise<void> {
+    async remove(id: string): Promise<void> {
         const role = await this.findOne(id);
 
         // Verificar se há usuários associados a esta role
@@ -181,7 +181,7 @@ export class RolesService {
      * @param {number} id - ID da 'role' a ser verificada
      * @returns {Promise<boolean>} True se a 'role' existir, false caso contrário
      */
-    async exists(id: number): Promise<boolean> {
+    async exists(id: string): Promise<boolean> {
         const role = await this.rolesRepository.findOne({
             where: { id },
         });
@@ -194,7 +194,7 @@ export class RolesService {
      * @param {number[]} ids - Array de IDs das 'roles' a serem buscadas
      * @returns {Promise<Role[]>} Array de 'roles' encontradas
      */
-    async findByIds(ids: number[]): Promise<Role[]> {
+    async findByIds(ids: string[]): Promise<Role[]> {
         if (!ids || ids.length === 0) {
             return [];
         }

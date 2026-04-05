@@ -12,26 +12,26 @@ export class Role {
   /**
    * ID único da 'role'.
    */
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
   /**
    * Nome do papel (normalizado e único).
    * Ex: "administrador", "gente_e_cultura", "colaborador", etc.
    */
   @Column({ unique: true })
-  name: string;
+  name!: string;
 
   /**
    * Nome do papel (normalizado e único).
    * Ex: "administrador", "gente_e_cultura", "colaborador", etc.
    */
   @Column({ nullable: true })
-  description: string;
+  description!: string;
 
   /**
    * Lista de usuários que pertencem a esta 'role'.
    */
   @OneToMany(() => User, user => user.role)
-  users: User[];
+  users!: User[];
 }
