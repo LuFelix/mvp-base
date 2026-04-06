@@ -18,7 +18,6 @@ export class UsersController {
 // 🔴 ROTAS DE ADMINISTRAÇÃO E GESTÃO
 // =======================================================
 
-    // Nota: Removi o segundo @Get() que estava duplicado na sua versão original
     @Get()
     @Roles('administrador') 
     @ApiOperation({ summary: 'Listar todos os usuários (Apenas Admin)' })
