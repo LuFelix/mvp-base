@@ -6,7 +6,7 @@ import { ROLES_KEY } from '../decorators/roles.decorator';
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
-  canActivate(context: ExecutionContext): boolean {
+   canActivate(context: ExecutionContext): boolean {
     const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -18,14 +18,18 @@ export class RolesGuard implements CanActivate {
 
     const { user } = context.switchToHttp().getRequest();
 
-    if (!user || !user.role) {
+    // Verifique se o user existe e se a role está lá (em minúsculo)
+    const userRole = user?.role?.toLowerCase().trim();
+
+    if (!userRole) {
       throw new ForbiddenException('Acesso negado: Perfil sem permissões.');
     }
 
-    const hasRole = requiredRoles.includes(user.role);
+    // Compara ignorando maiúsculas/minúsculas
+    const hasRole = requiredRoles.some(role => role.toLowerCase().trim() === userRole);
 
     if (!hasRole) {
-      throw new ForbiddenException('Acesso negado: Você não tem permissão para esta ação.');
+      throw new ForbiddenException(`Acesso negado: Você tem a role '${userRole}', mas é necessária uma destas: ${requiredRoles.join(', ')}`);
     }
 
     return true;
