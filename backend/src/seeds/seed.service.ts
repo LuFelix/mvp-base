@@ -79,7 +79,6 @@ export class SeedService {
         email: 'admin@meusistema.com',
         cpf: adminCPF,
         password: hashedPassword,
-        role: adminRole,
         isVerified: true,
         phonenumber: '00000000000',
         cep: '00000000',
@@ -88,7 +87,7 @@ export class SeedService {
         neighborhood: 'Centro',
         street: 'Rua do Admin',
       });
-
+      adminUser.role = adminRole;
       await this.userRepository.save(adminUser);
       this.logger.log(`Usuário administrador com CPF ${adminCPF} criado com sucesso.`);
     } else {
